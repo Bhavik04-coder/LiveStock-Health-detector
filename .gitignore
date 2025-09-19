@@ -1,0 +1,23 @@
+# Python virtual environment
+venv/
+
+# FFmpeg binaries
+ffmpeg-8.0-essentials_build/
+
+# Vosk models
+vosk-model-en-in-0.5/
+vosk-model-hi-0.22/
+
+# VSCode settings
+.vscode/
+
+# Runtime files
+errors.log
+transcript.txt
+
+# Installer
+python-3.11.9-amd64.exe
+
+# Byte-compiled / cache files
+__pycache__/
+*.pyc
