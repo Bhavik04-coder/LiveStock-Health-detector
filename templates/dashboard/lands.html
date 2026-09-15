@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1><i class="fas fa-map-marked-alt me-3"></i>{{ get_text('my_farm_lands') }}</h1>
+    <a href="{{ url_for('add_land') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>{{ get_text('add_land_title') }}
+    </a>
+</div>
+
+<div class="lands-grid">
+    {% for land in lands %}
+    <div class="land-card">
+        <div class="land-header">
+            <h4>{{ land.land_name }}</h4>
+            <span class="size-badge">{{ land.size_acres }} {{ get_text('size_acres') }}</span>
+        </div>
+        <div class="land-details">
+            <div class="detail-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{ land.location }}</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-seedling"></i>
+                <span>{{ land.soil_type or get_text('not_specified') }}</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-leaf"></i>
+                <span>{{ land.crops_grown or get_text('not_specified') }}</span>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-calendar"></i>
+                <span>{{ land.created_at|format_date }}</span>
+            </div>
+        </div>
+        <div class="land-actions">
+            <a href="{{ url_for('edit_land', land_id=land.id) }}" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-edit"></i> {{ get_text('edit') }}
+            </a>
+            <a href="{{ url_for('land_analytics', land_id=land.id) }}" class="btn btn-sm btn-outline-info">
+                <i class="fas fa-chart-line"></i> {{ get_text('view_analytics') }}
+            </a>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-map-marked-alt"></i>
+        <h3>{{ get_text('lands') }}</h3>
+        <p>{{ get_text('add_land_title') }}</p>
+        <a href="{{ url_for('add_land') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>{{ get_text('add_land') }}
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 2px solid #e8f5e8;
+}
+
+.lands-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.land-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.land-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.land-header {
+    background: linear-gradient(135deg, #4a7c59 0%, #2d5a27 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.land-header h4 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.size-badge {
+    background: rgba(255,255,255,0.2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.land-details {
+    padding: 20px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: #666;
+}
+
+.detail-item i {
+    color: #4a7c59;
+    width: 20px;
+}
+
+.land-actions {
+    padding: 20px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 10px;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    color: #2d5a27;
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    color: #666;
+    margin-bottom: 30px;
+}
+</style>
+{% endblock %}
